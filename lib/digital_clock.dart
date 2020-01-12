@@ -84,7 +84,6 @@ class _DigitalClockState extends State<DigitalClock>
     _updateTime();
     _updateModel();
 
-    //Carrosal---------
     _controller = new PageController(
       initialPage: _currentPage,
       keepPage: false,
@@ -93,7 +92,7 @@ class _DigitalClockState extends State<DigitalClock>
   }
 
   Widget _animatedWidget;
-  changeOpacity() {
+  void changeOpacity() {
     _dateTime = DateTime.now();
 
     // Update once per minute. If you want to update every second, use the
@@ -159,8 +158,9 @@ class _DigitalClockState extends State<DigitalClock>
   }
 
   void _updateTime() {
+
+    changeOpacity();
     setState(() {
-      changeOpacity();
 
       if (oldHr != hour) {
         _animatedWidget = Text(
