@@ -81,14 +81,14 @@ class _DigitalClockState extends State<DigitalClock>
     _portraitModeOnly();
     widget.model.addListener(_updateModel);
 
-    _updateTime();
-    _updateModel();
-
     _controller = new PageController(
       initialPage: _currentPage,
       keepPage: false,
       viewportFraction: 0.32,
     );
+
+    _updateTime();
+    _updateModel();
   }
 
   Widget _animatedWidget;
