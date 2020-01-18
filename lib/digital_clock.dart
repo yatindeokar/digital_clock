@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:digital_clock/clock_background.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as prefix0;
 import 'package:flutter/services.dart';
 import 'package:flutter_clock_helper/model.dart';
 import 'package:intl/intl.dart';
@@ -47,7 +46,7 @@ class _DigitalClockState extends State<DigitalClock>
   int _currentPage = 0;
   String mFontFamily = "RubicBold";
 
-  List<String> ll = [ " I ", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
+  List<String> romanDigits = [ " I ", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
 
   List<Shadow> _darkShadow = [
     Shadow(
@@ -95,7 +94,7 @@ class _DigitalClockState extends State<DigitalClock>
   }
 
   Widget _animatedWidget;
-  void changeOpacity() {
+  void changeTime() {
     _dateTime = DateTime.now();
 
     // Update once per minute. If you want to update every second, use the
@@ -163,13 +162,12 @@ class _DigitalClockState extends State<DigitalClock>
 
   void _updateTime() {
 
-    changeOpacity();
+    changeTime();
     setState(() {
 
-      print(hour);
       if (oldHr != hour) {
         _animatedWidget = Text(
-            ll[int.parse(hour) == 0 ? 0 : int.parse(hour)-1],
+          romanDigits[int.parse(hour) == 0 ? 0 : int.parse(hour)-1],
           style: _hourTextStyle,
           key: UniqueKey(),
         );
@@ -188,15 +186,13 @@ class _DigitalClockState extends State<DigitalClock>
         ? _lightTheme
         : _darkTheme;
 
-    hour =
-        DateFormat(widget.model.is24HourFormat ? 'hh' : 'hh').format(_dateTime);
+    hour = DateFormat('hh').format(_dateTime);
     minute = DateFormat('mm').format(_dateTime);
     String dayTime = DateFormat('aa').format(_dateTime);
 
     if (oldHr != hour) {
-      print(hour);
       _animatedWidget = Text(
-        ll[int.parse(hour) ==0 ? 0 : int.parse(hour) -1],
+        romanDigits[int.parse(hour) ==0 ? 0 : int.parse(hour) -1],
         style: _hourTextStyle,
         key: UniqueKey(),
       );
@@ -253,16 +249,6 @@ class _DigitalClockState extends State<DigitalClock>
                       ),
 
 
-//                      Container(
-//                        height: MediaQuery.of(context).size.height/1.7,
-//                        width: MediaQuery.of(context).size.height*0.015,
-//                        decoration: BoxDecoration(color: Colors.deepPurple.withOpacity(0.5),
-//                            borderRadius: BorderRadius.all(Radius.circular(10))),
-//
-//                      ),
-
-
-
                       new Container(
                           width: MediaQuery.of(context).orientation ==
                                   Orientation.portrait
@@ -282,38 +268,6 @@ class _DigitalClockState extends State<DigitalClock>
                                 builder(index)),
                       )
 
-//                      Padding(
-//                        padding: const EdgeInsets.only(
-//                            top: 20, bottom: 20, right: 10),
-//                        child: Container(
-//                          decoration: BoxDecoration(
-//                              color: Colors.deepPurple.withOpacity(0.5),
-//                              borderRadius:
-//                                  BorderRadius.all(Radius.circular(100))),
-//                          width: MediaQuery.of(context).orientation ==
-//                                  Orientation.portrait
-//                              ? MediaQuery.of(context).size.width / 3.3
-//                              : MediaQuery.of(context).size.height / 2.2,
-//                          child: new Center(
-//                            child: Padding(
-//                              padding: const EdgeInsets.all(10.0),
-//                              child: new Container(
-//                                child: new PageView.builder(
-//                                    physics: new NeverScrollableScrollPhysics(),
-//                                    scrollDirection: Axis.vertical,
-//                                    onPageChanged: (value) {
-//                                      setState(() {
-//                                        _currentPage = value;
-//                                      });
-//                                    },
-//                                    controller: _controller,
-//                                    itemBuilder: (context, index) =>
-//                                        builder(index)),
-//                              ),
-//                            ),
-//                          ),
-//                        ),
-//                      ),
                     ],
                   ),
                 ],

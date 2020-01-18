@@ -49,7 +49,7 @@ class ClockBackgroundState extends State<ClockBackground>{
             height: height/1.8,
             top: 150,
             left: 130,
-            child: widget.isAm ? SvgPicture.asset("images/sun.svg",) : SvgPicture.asset("images/sun.svg",),
+            child: widget.isAm ? SvgPicture.asset("images/sun.svg",) : SvgPicture.asset("images/moon.svg",),
 
         ),
 
