@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:digital_clock/clock_background.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as prefix0;
 import 'package:flutter/services.dart';
 import 'package:flutter_clock_helper/model.dart';
 import 'package:intl/intl.dart';
@@ -45,6 +46,8 @@ class _DigitalClockState extends State<DigitalClock>
   PageController _controller;
   int _currentPage = 0;
   String mFontFamily = "RubicBold";
+
+  List<String> ll = [ " I ", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
 
   List<Shadow> _darkShadow = [
     Shadow(
@@ -130,7 +133,8 @@ class _DigitalClockState extends State<DigitalClock>
     super.didChangeDependencies();
     _hourTextStyle = TextStyle(
         fontFamily: mFontFamily,
-        fontSize: MediaQuery.of(context).size.width / 2.8,
+        fontSize: 400,
+        shadows: _darkShadow,
         fontWeight: FontWeight.w800,
         color: Colors.white);
   }
@@ -162,9 +166,10 @@ class _DigitalClockState extends State<DigitalClock>
     changeOpacity();
     setState(() {
 
+      print(hour);
       if (oldHr != hour) {
         _animatedWidget = Text(
-          hour,
+            ll[int.parse(hour) == 0 ? 0 : int.parse(hour)-1],
           style: _hourTextStyle,
           key: UniqueKey(),
         );
@@ -184,12 +189,14 @@ class _DigitalClockState extends State<DigitalClock>
         : _darkTheme;
 
     hour =
-        DateFormat(widget.model.is24HourFormat ? 'HH' : 'hh').format(_dateTime);
+        DateFormat(widget.model.is24HourFormat ? 'hh' : 'hh').format(_dateTime);
     minute = DateFormat('mm').format(_dateTime);
+    String dayTime = DateFormat('aa').format(_dateTime);
 
     if (oldHr != hour) {
+      print(hour);
       _animatedWidget = Text(
-        hour,
+        ll[int.parse(hour) ==0 ? 0 : int.parse(hour) -1],
         style: _hourTextStyle,
         key: UniqueKey(),
       );
@@ -214,58 +221,99 @@ class _DigitalClockState extends State<DigitalClock>
                         Color(0xFF8000FF),
                         Color(0xFF090000),
                       ]),
+
                   borderRadius: BorderRadius.all(Radius.circular(20))),
               child: Stack(
                 overflow: Overflow.clip,
                 children: <Widget>[
-                  ClockBackground(),
+                  ClockBackground(isAm: (dayTime == "AM") ? true : false,),
                   Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      AnimatedSwitcher(
-                        transitionBuilder:
-                            (Widget child, Animation<double> animation) {
-                          return ScaleTransition(
-                            scale: animation,
-                            child: child,
-                          );
-                        },
-                        duration: const Duration(seconds: 1),
-                        child: _animatedWidget,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: 20, bottom: 20, right: 10),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.orange,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(100))),
-                          width: MediaQuery.of(context).orientation ==
-                                  Orientation.portrait
-                              ? MediaQuery.of(context).size.width / 3.3
-                              : MediaQuery.of(context).size.height / 2.2,
-                          child: new Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: new Container(
-                                child: new PageView.builder(
-                                    physics: new NeverScrollableScrollPhysics(),
-                                    scrollDirection: Axis.vertical,
-                                    onPageChanged: (value) {
-                                      setState(() {
-                                        _currentPage = value;
-                                      });
-                                    },
-                                    controller: _controller,
-                                    itemBuilder: (context, index) =>
-                                        builder(index)),
-                              ),
-                            ),
+
+                      Container(
+                        color: Colors.transparent,
+                        height: MediaQuery.of(context).size.height/1.6,
+                        width: MediaQuery.of(context).size.height/1.6,
+                        child:  FittedBox(
+                          fit: BoxFit.contain,
+                          child: AnimatedSwitcher(
+                              transitionBuilder:
+                                  (Widget child, Animation<double> animation) {
+                                return ScaleTransition(
+                                  scale: animation,
+                                  child: child,
+                                );
+                              },
+                              duration: const Duration(seconds: 1),
+                              child: _animatedWidget
                           ),
                         ),
                       ),
+
+
+//                      Container(
+//                        height: MediaQuery.of(context).size.height/1.7,
+//                        width: MediaQuery.of(context).size.height*0.015,
+//                        decoration: BoxDecoration(color: Colors.deepPurple.withOpacity(0.5),
+//                            borderRadius: BorderRadius.all(Radius.circular(10))),
+//
+//                      ),
+
+
+
+                      new Container(
+                          width: MediaQuery.of(context).orientation ==
+                                  Orientation.portrait
+                              ? MediaQuery.of(context).size.width / 3.3
+                              : MediaQuery.of(context).size.height / 1.8,
+                        height: MediaQuery.of(context).size.height,
+                        child: new PageView.builder(
+                            physics: new NeverScrollableScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            onPageChanged: (value) {
+                              setState(() {
+                                _currentPage = value;
+                              });
+                            },
+                            controller: _controller,
+                            itemBuilder: (context, index) =>
+                                builder(index)),
+                      )
+
+//                      Padding(
+//                        padding: const EdgeInsets.only(
+//                            top: 20, bottom: 20, right: 10),
+//                        child: Container(
+//                          decoration: BoxDecoration(
+//                              color: Colors.deepPurple.withOpacity(0.5),
+//                              borderRadius:
+//                                  BorderRadius.all(Radius.circular(100))),
+//                          width: MediaQuery.of(context).orientation ==
+//                                  Orientation.portrait
+//                              ? MediaQuery.of(context).size.width / 3.3
+//                              : MediaQuery.of(context).size.height / 2.2,
+//                          child: new Center(
+//                            child: Padding(
+//                              padding: const EdgeInsets.all(10.0),
+//                              child: new Container(
+//                                child: new PageView.builder(
+//                                    physics: new NeverScrollableScrollPhysics(),
+//                                    scrollDirection: Axis.vertical,
+//                                    onPageChanged: (value) {
+//                                      setState(() {
+//                                        _currentPage = value;
+//                                      });
+//                                    },
+//                                    controller: _controller,
+//                                    itemBuilder: (context, index) =>
+//                                        builder(index)),
+//                              ),
+//                            ),
+//                          ),
+//                        ),
+//                      ),
                     ],
                   ),
                 ],
@@ -282,7 +330,7 @@ class _DigitalClockState extends State<DigitalClock>
         double value = 1.0;
         if (_controller.position.haveDimensions) {
           value = _controller.page - index;
-          value = (1 - (value.abs() * .68)).clamp(0.0, 1.0);
+          value = (1 - (value.abs() * .60)).clamp(0.0, 1.0);
         }
 
         return new Center(
