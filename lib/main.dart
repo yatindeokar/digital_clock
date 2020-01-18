@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:digital_clock/digital_clock.dart';
@@ -6,7 +5,6 @@ import 'package:flutter_clock_helper/customizer.dart';
 import 'package:flutter_clock_helper/model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
 
 void main() {
   // A temporary measure until Platform supports web and TargetPlatform supports

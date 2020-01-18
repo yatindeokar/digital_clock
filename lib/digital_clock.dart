@@ -46,7 +46,20 @@ class _DigitalClockState extends State<DigitalClock>
   int _currentPage = 0;
   String mFontFamily = "RubicBold";
 
-  List<String> romanDigits = [ " I ", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
+  List<String> romanDigits = [
+    " I ",
+    "II",
+    "III",
+    "IV",
+    "V",
+    "VI",
+    "VII",
+    "VIII",
+    "IX",
+    "X",
+    "XI",
+    "XII"
+  ];
 
   List<Shadow> _darkShadow = [
     Shadow(
@@ -161,13 +174,11 @@ class _DigitalClockState extends State<DigitalClock>
   }
 
   void _updateTime() {
-
     changeTime();
     setState(() {
-
       if (oldHr != hour) {
         _animatedWidget = Text(
-          romanDigits[int.parse(hour) == 0 ? 0 : int.parse(hour)-1],
+          romanDigits[int.parse(hour) == 0 ? 0 : int.parse(hour) - 1],
           style: _hourTextStyle,
           key: UniqueKey(),
         );
@@ -192,7 +203,7 @@ class _DigitalClockState extends State<DigitalClock>
 
     if (oldHr != hour) {
       _animatedWidget = Text(
-        romanDigits[int.parse(hour) ==0 ? 0 : int.parse(hour) -1],
+        romanDigits[int.parse(hour) == 0 ? 0 : int.parse(hour) - 1],
         style: _hourTextStyle,
         key: UniqueKey(),
       );
@@ -217,22 +228,22 @@ class _DigitalClockState extends State<DigitalClock>
                         Color(0xFF8000FF),
                         Color(0xFF090000),
                       ]),
-
                   borderRadius: BorderRadius.all(Radius.circular(20))),
               child: Stack(
                 overflow: Overflow.clip,
                 children: <Widget>[
-                  ClockBackground(isAm: (dayTime == "AM") ? true : false,),
+                  ClockBackground(
+                    isAm: (dayTime == "AM") ? true : false,
+                  ),
                   Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-
                       Container(
                         color: Colors.transparent,
-                        height: MediaQuery.of(context).size.height/1.6,
-                        width: MediaQuery.of(context).size.height/1.6,
-                        child:  FittedBox(
+                        height: MediaQuery.of(context).size.height / 1.6,
+                        width: MediaQuery.of(context).size.height / 1.6,
+                        child: FittedBox(
                           fit: BoxFit.contain,
                           child: AnimatedSwitcher(
                               transitionBuilder:
@@ -243,17 +254,14 @@ class _DigitalClockState extends State<DigitalClock>
                                 );
                               },
                               duration: const Duration(seconds: 1),
-                              child: _animatedWidget
-                          ),
+                              child: _animatedWidget),
                         ),
                       ),
-
-
                       new Container(
-                          width: MediaQuery.of(context).orientation ==
-                                  Orientation.portrait
-                              ? MediaQuery.of(context).size.width / 3.3
-                              : MediaQuery.of(context).size.height / 1.8,
+                        width: MediaQuery.of(context).orientation ==
+                                Orientation.portrait
+                            ? MediaQuery.of(context).size.width / 3.3
+                            : MediaQuery.of(context).size.height / 1.8,
                         height: MediaQuery.of(context).size.height,
                         child: new PageView.builder(
                             physics: new NeverScrollableScrollPhysics(),
@@ -264,10 +272,8 @@ class _DigitalClockState extends State<DigitalClock>
                               });
                             },
                             controller: _controller,
-                            itemBuilder: (context, index) =>
-                                builder(index)),
+                            itemBuilder: (context, index) => builder(index)),
                       )
-
                     ],
                   ),
                 ],
